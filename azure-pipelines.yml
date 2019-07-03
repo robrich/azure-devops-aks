@@ -9,10 +9,11 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- powershell: |
-    Write-Host "Replacing BUILDNUM with $(Build.BuildNumber) in k8s/netapp.yaml"
-    (Get-Content k8s/netapp.yaml).replace('BUILDNUM', $(Build.BuildNumber)) | Set-Content k8s/netapp.yaml
+steps: 
+- script: |
+    echo "Replacing BUILDNUM with $(Build.BuildNumber) in k8s/netapp.yaml"
+    cat k8s/netapp.yaml | sed s/BUILDNUM/$(Build.BuildNumber)/g > k8s/netapp.yaml
+  displayName: 'Replace version in k8s yaml'
 - task: Docker@2
   inputs:
     containerRegistry: 'robrich-acr'
