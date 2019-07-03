@@ -11,11 +11,11 @@ spec:
     metadata:
       labels:
         app: net-app
-        version: 'BUILDNUM'
+        version: v-BUILDNUM
     spec:
       containers:
       - name: net-app
-        image: robrich.azurecr.io/dotnet:BUILDNUM
+        image: robrich.azurecr.io/dotnet:v-BUILDNUM
         ports:
         - containerPort: 80
 ---
