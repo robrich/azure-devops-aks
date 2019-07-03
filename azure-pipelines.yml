@@ -17,6 +17,9 @@ steps:
     repository: 'robrich.azurecr.io/dotnet'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
+    tags: |
+      $(Build.BuildNumber)
+      latest
 - task: CopyFiles@2
   inputs:
     SourceFolder: 'k8s'
