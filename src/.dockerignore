@@ -1,0 +1,6 @@
+bin
+obj
+*.user
+Properties/lauchSettings.json
+.vs
+.vscode
