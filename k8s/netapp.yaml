@@ -11,7 +11,7 @@ spec:
     metadata:
       labels:
         app: net-app
-        version: BUILDNUM
+        version: 'BUILDNUM'
     spec:
       containers:
       - name: net-app
