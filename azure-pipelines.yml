@@ -10,7 +10,9 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-
+- powershell: |
+    Write-Host "Replacing BUILDNUM with $(Build.BuildNumber) in k8s/netapp.yaml"
+    (Get-Content k8s/netapp.yaml).replace('BUILDNUM', $(Build.BuildNumber)) | Set-Content k8s/netapp.yaml
 - task: Docker@2
   inputs:
     containerRegistry: 'robrich-acr'
