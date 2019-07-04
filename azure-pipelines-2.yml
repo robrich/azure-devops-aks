@@ -1,0 +1,41 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'robrich-acr'
+    repository: 'net-app'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: |
+      v-$(Build.BuildNumber)
+      latest
+
+- script: |
+    echo "Changing BUILDNUM to $(Build.BuildNumber)"
+    cat k8s/net-app.yaml | sed s/BUILDNUM/$(Build.Number)/g > k8s/net-app.yaml
+    cat k8s/net-app.yaml
+    echo "Changed BUILDNUM"
+  displayName: 'Change build number'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'k8s'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
