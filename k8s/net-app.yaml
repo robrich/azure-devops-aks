@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: net-app
-        image: robrich.azurecr.io/dotnet:v-BUILDNUM
+        image: robrich.azurecr.io/net-app:v-BUILDNUM
         ports:
         - containerPort: 80
 ---
